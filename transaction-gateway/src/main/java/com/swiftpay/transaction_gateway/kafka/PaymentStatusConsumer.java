@@ -12,15 +12,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class PaymentStatusConsumer {
 
-    private final PaymentStatusUpdateService
-            paymentStatusUpdateService;
+    private final PaymentStatusUpdateService paymentStatusUpdateService;
 
     @KafkaListener(
             topics = "payment-completed",
             groupId = "payment-group"
     )
-    public void consumeCompleted(
-            PaymentCompletedEvent event) {
+    public void consumeCompleted(PaymentCompletedEvent event) {
 
         log.info(
                 "Payment completed received: {}",
@@ -37,8 +35,7 @@ public class PaymentStatusConsumer {
             topics = "payment-failed",
             groupId = "payment-group"
     )
-    public void consumeFailed(
-            PaymentFailedEvent event) {
+    public void consumeFailed(PaymentFailedEvent event) {
 
         log.info(
                 "Payment failed received: {}",

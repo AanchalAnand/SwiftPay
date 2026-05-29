@@ -42,26 +42,17 @@ public class LedgerService {
             maxAttempts = 3,
             backoff = @Backoff(delay = 2000)
     )
-    public void processPayment(
-            PaymentInitiatedEvent event) {
+    public void processPayment(PaymentInitiatedEvent event) {
 
-        if (paymentTransactionRepository
-                .findByTransactionId(
-                        event.getTransactionId()
-                ).isPresent()) {
-
+        if (paymentTransactionRepository.findByTransactionId(event.getTransactionId()).isPresent()) {
             return;
         }
 
-        Account sender = accountRepository
-                .findByUserIdForUpdate(
-                        event.getSenderId())
+        Account sender = accountRepository.findByUserIdForUpdate(event.getSenderId())
                 .orElseThrow(() ->
                         new RuntimeException("Sender not found"));
 
-        Account receiver = accountRepository
-                .findByUserIdForUpdate(
-                        event.getReceiverId())
+        Account receiver = accountRepository.findByUserIdForUpdate(event.getReceiverId())
                 .orElseThrow(() ->
                         new RuntimeException("Receiver not found"));
 
@@ -81,16 +72,10 @@ public class LedgerService {
         }
 
         // Debit sender
-        sender.setBalance(
-                sender.getBalance()
-                        .subtract(event.getAmount())
-        );
+        sender.setBalance(sender.getBalance().subtract(event.getAmount()));
 
         // Credit receiver
-        receiver.setBalance(
-                receiver.getBalance()
-                        .add(event.getAmount())
-        );
+        receiver.setBalance(receiver.getBalance().add(event.getAmount()));
 
         accountRepository.save(sender);
         accountRepository.save(receiver);

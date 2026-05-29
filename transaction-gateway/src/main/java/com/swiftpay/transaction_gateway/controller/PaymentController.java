@@ -30,8 +30,7 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> getPayment(
             @PathVariable String transactionId) {
 
-        PaymentResponse resp =
-                paymentService.getPayment(transactionId);
+        PaymentResponse resp = paymentService.getPayment(transactionId);
 
         return ResponseEntity.ok(resp);
     }

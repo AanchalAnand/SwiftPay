@@ -12,8 +12,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> handleRuntimeException(
-            RuntimeException ex) {
+    public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

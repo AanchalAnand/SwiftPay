@@ -41,8 +41,7 @@ public class PaymentService {
         if (req.getIdempotencyKey() != null
                 && !req.getIdempotencyKey().isBlank()) {
 
-            String redisKey =
-                    "payment:" + req.getIdempotencyKey();
+            String redisKey = "payment:" + req.getIdempotencyKey();
 
             Boolean isNewRequest = redisTemplate
                     .opsForValue()
@@ -55,15 +54,9 @@ public class PaymentService {
             // Duplicate request
             if (Boolean.FALSE.equals(isNewRequest)) {
 
-                return paymentRepository
-                        .findByIdempotencyKey(
-                                req.getIdempotencyKey()
-                        )
+                return paymentRepository.findByIdempotencyKey(req.getIdempotencyKey())
                         .map(this::toResponse)
-                        .orElseThrow(() ->
-                                new InvalidRequestException(
-                                        "Duplicate transaction request"
-                                ));
+                        .orElseThrow(() -> new InvalidRequestException("Duplicate transaction request"));
             }
 
         }
@@ -76,27 +69,16 @@ public class PaymentService {
         return toResponse(savedPayment);
     }
 
-    private void publishPaymentEvent(
-            Payment payment) {
+    private void publishPaymentEvent(Payment payment) {
 
         paymentEventProducer.publishPaymentInitiated(
 
                 PaymentInitiatedEvent.builder()
-                        .transactionId(
-                                payment.getTransactionId()
-                        )
-                        .senderId(
-                                payment.getSenderId()
-                        )
-                        .receiverId(
-                                payment.getReceiverId()
-                        )
-                        .amount(
-                                payment.getAmount()
-                        )
-                        .currency(
-                                payment.getCurrency()
-                        )
+                        .transactionId(payment.getTransactionId())
+                        .senderId(payment.getSenderId())
+                        .receiverId(payment.getReceiverId())
+                        .amount(payment.getAmount())
+                        .currency(payment.getCurrency())
                         .build()
         );
     }

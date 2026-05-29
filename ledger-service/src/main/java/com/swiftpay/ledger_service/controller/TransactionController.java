@@ -16,9 +16,7 @@ public class TransactionController {
     private final LedgerService ledgerService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<TransactionHistoryResponse>>
-    getTransactions(
-            @PathVariable String userId) {
+    public ResponseEntity<List<TransactionHistoryResponse>> getTransactions(@PathVariable String userId) {
 
         return ResponseEntity.ok(
                 ledgerService.getTransactionHistory(userId)

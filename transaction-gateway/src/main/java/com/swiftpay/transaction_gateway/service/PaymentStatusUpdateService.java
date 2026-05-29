@@ -16,8 +16,7 @@ public class PaymentStatusUpdateService {
     private final PaymentRepository paymentRepository;
 
     @Transactional
-    public void markPaymentCompleted(
-            String transactionId) {
+    public void markPaymentCompleted(String transactionId) {
 
         Payment payment = paymentRepository
                 .findByTransactionId(transactionId)

@@ -12,8 +12,7 @@ public class PaymentEventProducer {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void publishPaymentInitiated(
-            PaymentInitiatedEvent event) {
+    public void publishPaymentInitiated(PaymentInitiatedEvent event) {
 
         kafkaTemplate.send(
                 "payment-initiated",
